@@ -19,6 +19,23 @@ enum MainCommands {
 #[derive(Subcommand, Debug)]
 enum Day {
     One(DayOneCalibrateArgs),
+    Two(DayTwoCalibrateArgs),
+}
+
+#[derive(Args, Debug)]
+#[command(author, version, about, long_about = None)]
+struct DayTwoCalibrateArgs {
+    #[arg(short = 'p')]
+    text_path: String,
+
+    #[arg(long = "red")]
+    max_red: i32,
+
+    #[arg(long = "blue")]
+    max_blue: i32,
+
+    #[arg(long = "green")]
+    max_green: i32,
 }
 
 #[derive(Args, Debug)]
@@ -62,6 +79,14 @@ fn main() {
                     "The result for your input is: {}",
                     result.iter().sum::<u32>()
                 );
+            }
+            Day::Two(args) => {
+                let contents =
+                    fs::read_to_string(&args.text_path).expect("Unable to read text_path file");
+
+                let result = application::days::two::extract_possible_games(&contents, args.max_red, args.max_blue, args.max_green);
+
+                println!("The result for your input is: {}", result.into_iter().map(|x| x.nr).sum::<i32>());
             }
         },
     }

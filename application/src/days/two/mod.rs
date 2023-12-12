@@ -10,7 +10,7 @@ pub fn extract_possible_games(text: &str, max_red: i32, max_blue: i32, max_green
 }
 
 pub struct LineInfo {
-    nr: i32,
+    pub nr: i32,
     sets: Vec<SetInfo>,
 }
 
