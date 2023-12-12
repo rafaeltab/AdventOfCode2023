@@ -28,14 +28,8 @@ struct DayTwoCalibrateArgs {
     #[arg(short = 'p')]
     text_path: String,
 
-    #[arg(long = "red")]
-    max_red: i32,
-
-    #[arg(long = "blue")]
-    max_blue: i32,
-
-    #[arg(long = "green")]
-    max_green: i32,
+    #[clap(long, default_value_t = 1)]
+    part: i32,
 }
 
 #[derive(Args, Debug)]
@@ -84,9 +78,17 @@ fn main() {
                 let contents =
                     fs::read_to_string(&args.text_path).expect("Unable to read text_path file");
 
-                let result = application::days::two::extract_possible_games(&contents, args.max_red, args.max_blue, args.max_green);
+                if args.part == 1 {
+                    let result = application::days::two::extract_possible_games(&contents, 12, 14, 13);
 
-                println!("The result for your input is: {}", result.into_iter().map(|x| x.nr).sum::<i32>());
+                    println!("The result for your input is: {}", result.into_iter().map(|x| x.nr).sum::<i32>());
+                }else {
+
+                    let result = application::days::two::extract_least_cubes(&contents);
+
+                    println!("The result for your input is: {}", result.into_iter().map(|x| x.power()).sum::<i32>());
+                }
+
             }
         },
     }

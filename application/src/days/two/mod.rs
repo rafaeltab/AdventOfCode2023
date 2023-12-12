@@ -62,6 +62,12 @@ pub struct SetInfo {
     green_count: i32,
 }
 
+impl SetInfo {
+    pub fn power(&self) -> i32 {
+        return self.red_count * self.blue_count * self.green_count;
+    }
+}
+
 fn parse_line(line: &str) -> LineInfo {
     let mut draft_line_info = LineInfo {
         nr: 0,
